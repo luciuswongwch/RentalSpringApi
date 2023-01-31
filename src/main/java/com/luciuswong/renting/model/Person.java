@@ -5,8 +5,10 @@ import com.luciuswong.renting.validation.FieldValueMatch;
 import com.luciuswong.renting.validation.PasswordStrength;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Data
@@ -16,7 +18,8 @@ import lombok.Data;
 })
 public class Person extends BaseEntity {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO, generator="native")
+    @GenericGenerator(name="native", strategy="native")
     private int personId;
     @Size(min=5, message="Username must be at least 5 characters")
     private String username;
@@ -33,4 +36,6 @@ public class Person extends BaseEntity {
     @Transient
     @JsonIgnore
     private String confirmPassword;
+    @NotBlank(message="Role must not be blank")
+    private String role;
 }

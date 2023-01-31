@@ -8,7 +8,12 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PersonAuthenticationProvider implements AuthenticationProvider {
     @Autowired
@@ -23,10 +28,16 @@ public class PersonAuthenticationProvider implements AuthenticationProvider {
         Person personFromDb = personRepository.findByUsername(username);
         if (personFromDb != null && personFromDb.getPersonId() > 0 && passwordEncoder.matches(password, personFromDb.getPassword())) {
             // null is passed to authentication token as credentials since user password is not used in the application
-            return new UsernamePasswordAuthenticationToken(username, null);
+            return new UsernamePasswordAuthenticationToken(username, null, getGrantedAuthorities(personFromDb.getRole()));
         } else {
             throw new BadCredentialsException("Credentials are invalid");
         }
+    }
+
+    private List<GrantedAuthority> getGrantedAuthorities(String role) {
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+        return grantedAuthorities;
     }
 
     @Override
