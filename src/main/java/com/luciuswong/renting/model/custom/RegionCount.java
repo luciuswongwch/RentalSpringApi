@@ -1,12 +1,12 @@
 package com.luciuswong.renting.model.custom;
 
-import com.luciuswong.renting.model.Rental;
+import com.luciuswong.renting.model.Region;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class PropertyTypeCount {
-    private Rental.PropertyType propertyType;
+public class RegionCount {
+    private String place;
     private Long count;
 }

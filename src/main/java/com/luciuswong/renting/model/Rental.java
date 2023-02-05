@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.luciuswong.renting.constants.RentingSpringConstants;
-import com.luciuswong.renting.model.custom.PropertyType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -31,4 +30,10 @@ public class Rental extends BaseEntity {
     @JoinColumn(name="rental_detail_id", referencedColumnName="rentalDetailId", nullable=false)
     @JsonManagedReference
     private RentalDetail rentalDetail;
+
+    public enum PropertyType {
+        Apartment, Condo, House, Townhouse, Villa
+    }
 }
+
+
